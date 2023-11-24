@@ -137,6 +137,12 @@ public class Film {
      */
     private void saveNew() throws SQLException, RealisateurAbsentException {
 
+        System.out.println("id_real = " + this.id_real);
+        //si la clef étrangère id_real est égale à -1,
+        //les méthodes doivent lever une exception RealisateurAbsentException
+        if (this.id_real == -1) {
+            throw new RealisateurAbsentException();
+        }
 
         String SQLPrep = "INSERT INTO film (titre, id_rea) VALUES (?,?);";
         PreparedStatement prep = DBConnection.getConnection().prepareStatement(SQLPrep, Statement.RETURN_GENERATED_KEYS);
@@ -152,11 +158,7 @@ public class Film {
             this.id = rs.getInt(1);
         }
 
-        //si la clef étrangère id_real est égale à -1,
-        //les méthodes doivent lever une exception RealisateurAbsentException
-        if (this.id_real == -1) {
-            throw new RealisateurAbsentException();
-        }
+
     }
 
     /**
@@ -183,20 +185,14 @@ public class Film {
      * film this dans la base de données. Si l'objet film n'est pas encore présent dans la base de données,
      * la méthode saveNew est appelée, sinon la méthode update est appelée.
      */
-    public void save() throws SQLException {
+    public void save() throws SQLException, RealisateurAbsentException {
 
         if (this.id == -1) {
-            try {
-                this.saveNew();
-            } catch (RealisateurAbsentException e) {
-                e.printStackTrace();
-            }
+
+            this.saveNew();
+
         } else {
-            try {
-                this.update();
-            } catch (RealisateurAbsentException e) {
-                e.printStackTrace();
-            }
+            this.update();
         }
     }
 

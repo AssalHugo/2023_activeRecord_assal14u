@@ -1,5 +1,6 @@
 import activeRecord.Film;
 import activeRecord.Personne;
+import activeRecord.RealisateurAbsentException;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -14,7 +15,7 @@ public class TestFilm {
     private Personne p2 = new Personne("Scott", "Ridley");
 
     @BeforeEach
-    public void init() throws SQLException {
+    public void init() throws SQLException, RealisateurAbsentException {
 
         Personne.createTable();
 
